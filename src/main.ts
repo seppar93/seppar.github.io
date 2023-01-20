@@ -1,23 +1,37 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import { setupCounter } from './counter'
+import "./style.css";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+import * as THREE from "three";
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+// 1. Scene => container holding objects
+const scene = new THREE.Scene();
+// 2. Camera => looking inside of Scene (eyeballs)
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+//                                        ^^ field of viw,  ^^^aspect ration, view frustum
+// 3. Renderer
+const renderer = new THREE.WebGLRenderer({
+  canvas: document.querySelector('#bg'),
+});
+
+renderer.setPixelRatio(window.devicePixelRatio)
+renderer.setSize(window.innerWidth, window.innerHeight)
+camera.position.setZ(30);
+// render == draw
+renderer.render(scene, camera)
+
+// creating object
+// 1. Geometry the {x,y,z} points that make up a shape
+const geometry = new THREE.TorusGeometry(10,3,16,100)
+
+// 2. Material the wrapping paper for an object
+const material = new THREE.MeshBasicMaterial({color: 0xFF6347, wireframe: true})
+// ^^ no light source
+
+// 3. Mesh geometry + material
+const torus = new THREE.Mesh(geometry, material)
+
+scene.add(torus)
