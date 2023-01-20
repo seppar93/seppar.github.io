@@ -1,6 +1,7 @@
 import "./style.css";
 
 import * as THREE from "three";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 // 1. Scene => container holding objects
 const scene = new THREE.Scene();
@@ -23,15 +24,40 @@ renderer.render(scene, camera)
 const geometry = new THREE.TorusGeometry(10,3,16,100)
 
 // 2. Material the wrapping paper for an object
-const material = new THREE.MeshBasicMaterial({color: 0xFF6347, wireframe: true})
+// const material = new THREE.MeshBasicMaterial({color: 0xFF6347, wireframe: true})
 // ^^ no light source
+
+// material with light 
+const material = new THREE.MeshStandardMaterial({color: 0xFF6347})
+
+// lighting 
+const pointLight = new THREE.PointLight(0xffffff)
+// hexadecimal literal
+pointLight.position.set(40,40,40)
+scene.add(pointLight);
+
+// ambient light
+const ambientLight = new THREE.AmbientLight(0xFFFFFF);
+scene.add(ambientLight);
+
+// light Halper
+const lightHelper = new THREE.PointLightHelper(pointLight);
+const gridHelper = new THREE.GridHelper(200,50);
+
+scene.add(lightHelper,gridHelper);
+
 
 // 3. Mesh geometry + material
 const torus = new THREE.Mesh(geometry, material)
 
 scene.add(torus)
 
-// 
+// controls 
+
+const controls = new OrbitControls(camera, renderer.domElement);
+
+
+
 function animate () {
   // telling the browesr to perform an animation
   // game loop
@@ -39,6 +65,8 @@ function animate () {
   torus.rotation.x += 0.01;
   torus.rotation.y += 0.01;
   torus.rotation.z += 0.01;
+
+  controls.update()
 
   renderer.render(scene, camera);
 }
