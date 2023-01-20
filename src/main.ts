@@ -75,6 +75,29 @@ Array(200).fill().forEach(addStar);
 const spaceTexture = new THREE.TextureLoader().load('./assets/space.jpg')
 scene.background = spaceTexture;
 
+// avatar // texture map 
+
+// const sepTexture = new THREE.TextureLoader().load('./assets/Sepehr.JPG')
+// const sep = new THREE.Mesh( 
+//   new THREE.BoxGeometry(3,3,3),
+//   new THREE.MeshBasicMaterial({map: sepTexture})
+// );
+// scene.add(sep)
+
+// const moon 
+const moonTexture = new THREE.TextureLoader().load('./assets/gasClouds.jpg')
+const moon = new THREE.Mesh( 
+  new THREE.SphereGeometry(3,32,32),
+  new THREE.MeshBasicMaterial({map: moonTexture})
+);
+
+scene.add(moon)
+
+
+
+
+
+
 function animate () {
   // telling the browesr to perform an animation
   // game loop
